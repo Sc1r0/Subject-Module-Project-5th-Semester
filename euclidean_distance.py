@@ -2,7 +2,7 @@
 import numpy as np  # used to calculate the square root in the euclidean distance function
 
 # Files
-from kNN_model import X, y
+from kNN_model_from_scratch import X, y
 
 
 # calculate the euclidean distance

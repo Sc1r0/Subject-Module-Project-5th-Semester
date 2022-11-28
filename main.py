@@ -1,5 +1,5 @@
 # Files
-from kNN_model import KNN
+from kNN_model_from_scratch import KNNFromScratch
 import diagram_visualizations as dia_viz
 
 # Data manipulation
@@ -21,17 +21,31 @@ y = dataset[['X', 'Y']]  # our X and Y coordinates from the modem
 # train the model
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
 
-# instantiate our KNN model and give it a k value
-reg = KNN(k=5)
 
+################################# KNN WITH LIBRARIES #################################
+k = 5   # the reason for 5, can be seen if "dia_viz.visualize_k_value()" is run
+knn_model = KNeighborsRegressor(n_neighbors=k)
+# instance and fit the model
+knn_model.fit(X_train, y_train)
+# predictions - returns predicted values
+prediction = knn_model.predict(X_test)
+# model evaluation - returns margin of error in meters
+knn_eval = mean_squared_error(y_test, prediction)
+
+############################### KNN WITHOUT LIBRARIES ###############################
+# instantiate our KNN model and give it a k value
+reg = KNNFromScratch(k=5)
 # fit our KNN model
 reg.fit(X_train, y_train)
-
 # predict values
 predictions = reg.predict(X_test)
 
 
 if __name__ == '__main__':
+    print("Predictions:")
+    print(prediction)   # print predictions
+    print("Mean squared error:", knn_eval)  # print the evaluation
+
     # dia_viz.visualize_k_value()
 
     # out-commented to avoid having unnecessary functions or processes done

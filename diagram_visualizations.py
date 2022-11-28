@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt  # is used to plot the data from Excel sheet into a graph
 
 # Files
-import kNN_model as kNN
+import kNN_model_from_scratch as kNN
 
 
 # prove the use of k = 5, using a scatter plot diagram
