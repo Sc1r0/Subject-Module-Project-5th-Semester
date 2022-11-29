@@ -22,14 +22,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 if __name__ == '__main__':
     ############################### KNN WITHOUT LIBRARIES ###############################
     # instantiate our KNN model and give it a k value
-    reg = kNN(k=5)
+    KNN = kNN(k=5)
     # fit our KNN model
     # 'values' takes only the values of the Excel sheet and puts it into an array / list
-    reg_fit = reg.fit(X_train.values, y_train.values)
+    reg_fit = KNN.fit(X_train.values, y_train.values)
     # predict values
-    our_predictions = reg.predict(X_test.values)
+    our_predictions = KNN.predict(X_test.values)
     print("predictions (our method): ", our_predictions)
-    margin_of_error = reg.margin_of_error(y_test.values[0], our_predictions[0, 0])
+    margin_of_error = KNN.margin_of_error(y_test.values[0], our_predictions[0, 0])
     print("MoE (our method):", margin_of_error)
 
     ################################# KNN WITH LIBRARIES #################################
