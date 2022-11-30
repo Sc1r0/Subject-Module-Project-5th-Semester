@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt  # is used to plot the data from Excel sheet into a graph
 
 # Files
-from KNN import KNNFromScratch as KNN_scratch
+from KNN import KNNFromScratch as kNN
 from main import X_train, y_train, X_test, y_test
 
 
@@ -10,10 +10,10 @@ from main import X_train, y_train, X_test, y_test
 def visualize_k_value():
     margin_of_error = []
     for i in range(1, 15):
-        knn_model_plotter = KNN_scratch(k=i)
-        knn_model_plotter.fit(X_train.values, y_train.values)
-        predictions = knn_model_plotter.predict(X_test.values)
-        margin_of_error.append(knn_model_plotter.margin_of_error(y_test.values[2], predictions))
+        KNN = kNN(k=i)
+        KNN.fit(X_train.values, y_train.values)
+        our_predictions = KNN.predict(X_test.values)
+        margin_of_error.append(KNN.margin_of_error(y_test.values[0], our_predictions))
 
         # knn_model_plotter = KNeighborsRegressor(i)
         # knn_model_plotter.fit(X_train, y_train)
