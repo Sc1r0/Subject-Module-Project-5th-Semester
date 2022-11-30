@@ -13,7 +13,7 @@ def visualize_k_value():
         KNN = kNN(k=i)
         KNN.fit(X_train.values, y_train.values)
         our_predictions = KNN.predict(X_test.values)
-        margin_of_error.append(KNN.margin_of_error(y_test.values[0], our_predictions))
+        margin_of_error.append(KNN.margin_of_error(y_test.values, our_predictions))
 
         # knn_model_plotter = KNeighborsRegressor(i)
         # knn_model_plotter.fit(X_train, y_train)
