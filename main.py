@@ -1,5 +1,6 @@
 # Files
 from KNN import KNNFromScratch as kNN
+import GUI as GUI
 
 # Data manipulation
 import pandas as pd  # is used to read data from Excel sheet
@@ -23,6 +24,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 test_point = X_test.values[0]
 
 if __name__ == '__main__':
+
+    # run our window
+    # GUI.main()
+
     ############################### KNN WITHOUT LIBRARIES ###############################
     k = 5   # the reason for 5, can be seen if "dia_viz.visualize_k_value()" is run
     # instantiate our KNN model and give it a k value
