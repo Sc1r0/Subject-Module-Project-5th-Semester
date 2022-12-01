@@ -51,7 +51,7 @@ class KNNFromScratch:
 
 
     def margin_of_error(self, test, prediction):
-        # TODO: Fill out this method
+        # TODO: Calculate the average distance between the test-point and the true-position value.
         # find euclidean distance from test_point to each index in k_indices
         # print("Our test data:", test)
         margin_of_error = euclidean_distance(test, prediction)

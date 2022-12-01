@@ -24,10 +24,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 test_point = X_test.values[0]
 
 if __name__ == '__main__':
-
     # run our window
-    # GUI.main()
+    GUI.main()
 
+    """
     ############################### KNN WITHOUT LIBRARIES ###############################
     k = 5   # the reason for 5, can be seen if "dia_viz.visualize_k_value()" is run
     # instantiate our KNN model and give it a k value
@@ -60,4 +60,4 @@ if __name__ == '__main__':
     # model evaluation - returns margin of error in meters
     knn_eval = mean_squared_error(y_test, knn_predictions)
     print("RMSE (KNN Library):", knn_eval)
-
+    """
