@@ -3,6 +3,7 @@ from KNN import KNNFromScratch as kNN
 
 # Data manipulation
 import pandas as pd  # is used to read data from Excel sheet
+import numpy as np
 
 # KNN tools
 from sklearn.neighbors import KNeighborsRegressor  # is used to calculate the nearest neighbor for KNN regression
@@ -34,10 +35,14 @@ if __name__ == '__main__':
     print("predictions (our method): ", our_predictions)
     print("Our y_test:", y_test.values[:k])
     margin_of_error = KNN.margin_of_error(y_test.values, our_predictions)
-    print("MoE (our method):", margin_of_error)
-    print("X,Y of distances[66] = ", y[65:68][:].values)
+    #print("MoE (our method):", margin_of_error)
+    #print("X,Y of distances[66] = ", y[65:68][:].values)
 
-    KNN.ground_truth(y)
+    ground_truth = KNN.ground_truth()
+    #print("Our ground_truth return:", ground_truth)
+
+    RMSE = KNN.root_mean_squared_error(our_predictions, y_test.values[:k], k)
+    print("RMSE (Our Method):", RMSE)
 
     ################################# KNN WITH LIBRARIES #################################
     k = 5  # the reason for 5, can be seen if "dia_viz.visualize_k_value()" is run
@@ -46,8 +51,8 @@ if __name__ == '__main__':
     knn_model.fit(X_train, y_train)
     # predictions - returns predicted values
     knn_predictions = knn_model.predict(X_test)
-    print("predictions (KNN Library):", knn_predictions[:k])
+    #print("predictions (KNN Library):", knn_predictions[:k])
     # model evaluation - returns margin of error in meters
     knn_eval = mean_squared_error(y_test, knn_predictions)
-    print("MoE (KNN Library):", knn_eval)
+    print("RMSE (KNN Library):", knn_eval)
 

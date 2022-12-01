@@ -41,11 +41,24 @@ class KNNFromScratch:
 
         return k_nearest_labels
 
-    def ground_truth(self, y):
-        xCoordinates = y[['X']]
-        # xCoordinates = [xCoordinates[i] for i in k_indices]
-        yCoordinates = y[['Y']]
-        # yCoordinates = [yCoordinates[i] for i in groundtruth]
+    def root_mean_squared_error(self, predicted_value, observed_value, number_of_samples):
+        # calculate the RMSE.
+        # Formula: √Σ(Pi – Oi)2 / n
+        # where Pi is the predicted value for the i-th observation in the dataset
+        # where Oi is the observed value for the i-th observation in the dataset
+        # where n is the sample size
+        return np.sqrt((np.sum(predicted_value - observed_value) ** 2 / number_of_samples))
+
+
+    def margin_of_error(self, test, prediction):
+        # TODO: Fill out this method
+        # find euclidean distance from test_point to each index in k_indices
+        # print("Our test data:", test)
+        margin_of_error = euclidean_distance(test, prediction)
+        # print("Our MoE:", margin_of_error)
+        return margin_of_error
+
+    def ground_truth(self):
         groundtruthx, groundtruthy = np.split(groundtruth, 2, axis=1)
 
         # flatten the 2-D list to a 1-D list
@@ -60,11 +73,3 @@ class KNNFromScratch:
         avg_x_y = [avg_x, avg_y]
 
         return avg_x_y
-
-    def margin_of_error(self, test, prediction):
-        # TODO: Fill out this method
-        # find euclidean distance from test_point to each index in k_indices
-        # print("Our test data:", test)
-        margin_of_error = euclidean_distance(test, prediction)
-        # print("Our MoE:", margin_of_error)
-        return margin_of_error
