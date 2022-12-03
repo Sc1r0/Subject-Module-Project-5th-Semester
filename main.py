@@ -21,34 +21,37 @@ y = dataset[['X', 'Y']]  # our X and Y coordinates from the modem
 # train the model
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
 
-test_point = X_test.values[0]
+test_point = [-21, -25, -31, -22]
 
 if __name__ == '__main__':
     # run our window
     GUI.main()
 
-    """
     ############################### KNN WITHOUT LIBRARIES ###############################
-    k = 5   # the reason for 5, can be seen if "dia_viz.visualize_k_value()" is run
+    # the reason for 5, can be seen if "dia_viz.visualize_k_value()" is run
+    k = 5
+
     # instantiate our KNN model and give it a k value
     KNN = kNN(k=k)
+
     # fit our KNN model
     # 'values' takes only the values of the Excel sheet and puts it into an array / list
     KNN.fit(X_train.values, y_train.values)
+
     # predict values
-    our_predictions = KNN.predict(X_test.values, y)
-    print("predictions (our method): ", our_predictions)
-    print("Our y_test:", y_test.values[:k])
-    margin_of_error = KNN.margin_of_error(y_test.values, our_predictions)
-    #print("MoE (our method):", margin_of_error)
+    our_predictions = KNN.predict(test_point, y)
+    # print("predictions (our method): ", our_predictions)
+    # print("Our y_test:", y_test.values[:k])
+
+    # get our ground_truth variables
+    ground_truth = KNN.ground_truth()
+
+    # calculate the margin of error
+    margin_of_error = KNN.margin_of_error(ground_truth, our_predictions)
+    print("MoE (our method):", margin_of_error)
     #print("X,Y of distances[66] = ", y[65:68][:].values)
 
-    ground_truth = KNN.ground_truth()
-    #print("Our ground_truth return:", ground_truth)
-
-    RMSE = KNN.root_mean_squared_error(our_predictions, y_test.values[:k], k)
-    print("RMSE (Our Method):", RMSE)
-
+    """
     ################################# KNN WITH LIBRARIES #################################
     k = 5  # the reason for 5, can be seen if "dia_viz.visualize_k_value()" is run
     knn_model = KNeighborsRegressor(n_neighbors=k)
