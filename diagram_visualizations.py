@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt  # is used to plot the data from Excel sheet int
 
 # Files
 from KNN import KNNFromScratch as kNN
-from main import X_train, y_train, X_test, y_test
-
+from excel_sheet_data import X_train, y_train, X_test, y_test
 
 # prove the use of k = 5, using a scatter plot diagram
 def visualize_k_value():
