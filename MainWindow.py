@@ -18,7 +18,10 @@ from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMessageBox, QListWidgetItem
 
 # get data from X_test to show in List view
-from excel_sheet_data import X_test
+from excel_sheet_data import X, X_test, X_train, y, y_test, y_train
+
+# get our KNN function
+from KNN import KNNFromScratch as kNN
 
 
 # Our GUI Class
@@ -29,7 +32,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(841, 592)
         MainWindow.setFixedSize(841, 592)
         font = QtGui.QFont()
-        font.setFamily("Segoe UI Symbol")
+        font.setFamily("Arial")
         font.setBold(False)
         font.setItalic(False)
         font.setUnderline(False)
@@ -140,9 +143,6 @@ class Ui_MainWindow(object):
         # Group Box containing UI components related to the result of the User Position calculation
         self.YourPositionGroupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.YourPositionGroupBox.setGeometry(QtCore.QRect(350, 410, 241, 61))
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.YourPositionGroupBox.setFont(font)
         self.YourPositionGroupBox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.YourPositionGroupBox.setObjectName("YourPositionGroupBox")
 
@@ -160,9 +160,6 @@ class Ui_MainWindow(object):
         # GroupBox containing UI elements related to the Margin of Error calculation
         self.MarginOfErrorGroupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.MarginOfErrorGroupBox.setGeometry(QtCore.QRect(350, 480, 241, 61))
-        font = QtGui.QFont()
-        font.setPointSize(9)
-        self.MarginOfErrorGroupBox.setFont(font)
         self.MarginOfErrorGroupBox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.MarginOfErrorGroupBox.setObjectName("MarginOfErrorGroupBox")
 
@@ -247,7 +244,15 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Find My Location"))
 
         # Set text of our Instruction label
-        self.Instructions.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">Instructions:</span></p><p>Either enter 4 negative values, one for each beacon or choose a set of RSSI values from the dropdown menu. </p><p>These values have to be between -10 and -70. Anything but negative values will not be tolerated. </p><p>Once filled, press the &quot;Locate Me!&quot; button, and your approximate location will displayed on the map.</p></body></html>"))
+        self.Instructions.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; "
+                                                           "font-weight:600;\">Instructions:</span></p><p>Either "
+                                                           "enter 4 negative values, one for each beacon or choose a "
+                                                           "set of RSSI values from the list to the right. "
+                                                           "</p><p>These values have to be between -10 and -70. "
+                                                           "Anything but negative values will not be tolerated. </p>"
+                                                           "<p>Once filled, press the &quot;Locate Me!&quot; button, "
+                                                           "and your approximate location will displayed on the "
+                                                           "map.</p> </body></html>"))
 
         # Set title of our MapGroupBox object
         self.MapGroupBox.setTitle(_translate("MainWindow", "Map"))
@@ -358,11 +363,40 @@ class Ui_MainWindow(object):
         self.B4Input.setText(value_3)
         self.B5Input.setText(value_4)
 
+    def performKNN(self, k, test_point):
+        # instantiate our KNN model and give it a k value
+        KNN = kNN(k=k)
+
+        # fit our KNN model
+        KNN.fit(X_train.values, y_train.values)
+
+        # predict values
+        our_predictions = KNN.predict(test_point, y)
+
+        # get our ground_truth variables
+        ground_truth = KNN.ground_truth()
+
+        # calculate the margin of error
+        margin_of_error = KNN.margin_of_error(ground_truth, our_predictions)
+
+        # plot our values into our GUI
+        # self.EstimatedPosition_value.setText()
+
 
 def window():
+    default_font = QtGui.QFont('Arial', 12)
+    default_font.setPixelSize(12)
+    # QtWidgets.QApplication.setStyle("fusion")
+    QtWidgets.QApplication.setFont(default_font)
+
     app = QtWidgets.QApplication(sys.argv)
+    app.setFont(default_font)
+
     MainWindow = QtWidgets.QMainWindow()
+    MainWindow.setFont(default_font)
+
     ui = Ui_MainWindow()
     ui.setupUI(MainWindow)
+
     MainWindow.show()
     sys.exit(app.exec_())

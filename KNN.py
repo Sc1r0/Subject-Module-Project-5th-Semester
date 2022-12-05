@@ -4,18 +4,23 @@ import numpy as np
 # Other
 from euclidean_distance import euclidean_distance, euclidean_distance_multi
 
+from excel_sheet_data import X as B_values
+
 
 class KNNFromScratch:
     # FIXME: Our predictions are wrong.
     #   Our distances formula does not calculate the euclidean distance on itself at first, and thus probably returns
     #   wrong values all the way.
+    # Initialize our class
     def __init__(self, k):
         self.k = k
 
+    # fit our model
     def fit(self, X, y):
         self.X_train = X
         self.y_train = y
 
+    # predict the k_nearest positions
     def predict(self, X, y):
         global predictions  # defined as global variable, to access it in estimated_location()
 
@@ -24,28 +29,32 @@ class KNNFromScratch:
 
         return np.array(predictions)
 
+    # helper method for the predict() method
     def _predict(self, x, y):
         global k_indices  # defined as global variable, to access it in ground_truth()
         global groundtruth  # defined as global variable, to access it in ground_truth()
 
         y = np.array(y)
         distances = [euclidean_distance_multi(x, x_train) for x_train in self.X_train]
-        # print("Our distances:", distances)
+        print("Our distances:", distances)
         # get closest K (indices = Latin for 'plural of index')
+        # saves the index number of the k closest neighbors (as calculated by euclidean distance)
         k_indices = np.argsort(distances)[:self.k]  # returns index number of k_indices of the distances list
         # example: distance[66] = 39.42, which is the closest euclidean distance from the distances list.
-        # print("Our k_indices:", k_indices)
-        # print("Our k_indices:", distances[66], distances[47], distances[25], distances[67], distances[29])
+        print("Our k_indices:", k_indices)
 
-        # save the ground truth locations
+        # save the ground truth locations to for each index+1 in y[].
+        # +1 is because lists / arrays in python starts at index 0, but our datasheet starts at datapoint 1.
         groundtruth = y[k_indices]
-        # print("Our groundtruths:", groundtruth)
+        print("Our groundtruths:", groundtruth)
 
         # save the k-nearest labels
         k_nearest_labels = [self.y_train[i] for i in k_indices]
+        print("k_nearest_labels:", k_nearest_labels)
 
         return k_nearest_labels
 
+    #
     def ground_truth(self):
         ground_truth = groundtruth
         groundtruthx, groundtruthy = np.split(groundtruth, 2, axis=1)
@@ -73,7 +82,7 @@ class KNNFromScratch:
         ground_truth = groundtruth
 
         print("prediction list:", prediction)
-        print("ground_truth list:", ground_truth)
+        #print("ground_truth list:", ground_truth)
 
         average_euclidean_distance_singular = np.average(
             [np.sqrt((ground_truth[0][0] - prediction[0][0]) ** 2 +

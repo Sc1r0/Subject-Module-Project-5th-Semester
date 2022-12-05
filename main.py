@@ -12,6 +12,8 @@ from sklearn.neighbors import KNeighborsRegressor  # is used to calculate the ne
 from sklearn.model_selection import train_test_split  # is used to split our dataset into training and testing sets.
 from sklearn.metrics import mean_squared_error  # is used to calculate the quality of our model
 
+from excel_sheet_data import X_train, y_train, y
+
 test_point = [-21, -25, -31, -22]
 
 if __name__ == '__main__':
