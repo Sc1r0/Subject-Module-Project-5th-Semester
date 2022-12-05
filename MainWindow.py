@@ -12,6 +12,7 @@
 import sys
 import webbrowser
 
+import numpy as np
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
@@ -21,7 +22,7 @@ from PyQt5.QtWidgets import QMessageBox, QListWidgetItem
 from excel_sheet_data import X, X_test, X_train, y, y_test, y_train
 
 # get our KNN function
-from KNN import KNNFromScratch as kNN
+from KNN_v2 import KNN_v2
 
 
 # Our GUI Class
@@ -31,18 +32,13 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(841, 592)
         MainWindow.setFixedSize(841, 592)
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setBold(False)
-        font.setItalic(False)
-        font.setUnderline(False)
-        font.setWeight(50)
-        font.setStrikeOut(False)
+        font = QtGui.QFont()    # create font object
+        font.setFamily("Arial") # set font family
+        font.setWeight(50)  # set font weight
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        MainWindow.setFont(font)
-        MainWindow.setAcceptDrops(True)
+        MainWindow.setFont(font)    # set the font for our main window
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
-        MainWindow.setWindowIcon(QtGui.QIcon("icon.svg"))
+        MainWindow.setWindowIcon(QtGui.QIcon("icon.svg"))   # add application icon
 
         # Create Widget within the Window Frame
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -139,6 +135,9 @@ class Ui_MainWindow(object):
         self.FindMeBtn.setGeometry(QtCore.QRect(10, 80, 301, 41))
         self.FindMeBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.FindMeBtn.setObjectName("FindMeBtn")
+        # FIXME: Below line causes the following error code: Process finished with exit code -1073740791 (0xC0000409).
+        #   Unsure as to why or how to fix it.
+        self.FindMeBtn.clicked.connect(self.performKNN(5, self.getTestPoint()))
 
         # Group Box containing UI components related to the result of the User Position calculation
         self.YourPositionGroupBox = QtWidgets.QGroupBox(self.centralwidget)
@@ -365,38 +364,52 @@ class Ui_MainWindow(object):
 
     def performKNN(self, k, test_point):
         # instantiate our KNN model and give it a k value
-        KNN = kNN(k=k)
+        KNN = KNN_v2(k=k)
 
         # fit our KNN model
         KNN.fit(X_train.values, y_train.values)
 
         # predict values
-        our_predictions = KNN.predict(test_point, y)
-
-        # get our ground_truth variables
-        ground_truth = KNN.ground_truth()
+        prediction = KNN.predict(test_point, y)
 
         # calculate the margin of error
-        margin_of_error = KNN.margin_of_error(ground_truth, our_predictions)
+        # KNN.evaluate_knn()
 
         # plot our values into our GUI
-        # self.EstimatedPosition_value.setText()
+        self.EstimatedPosition_value.setText(prediction)
+
+    def getTestPoint(self):
+        # save values in a list
+        print("B2 input:", self.B2Input.text())
+        print("B3 input:", self.B3Input.text())
+        print("B4 input:", self.B4Input.text())
+        print("B5 input:", self.B5Input.text())
+
+        beacon_values = [int(self.B2Input.text()), int(self.B3Input.text()),
+                         int(self.B4Input.text()), int(self.B5Input.text())]
+        print(beacon_values)
+
+        return beacon_values
 
 
 def window():
+    # set default font
     default_font = QtGui.QFont('Arial', 12)
     default_font.setPixelSize(12)
-    # QtWidgets.QApplication.setStyle("fusion")
-    QtWidgets.QApplication.setFont(default_font)
+    QtWidgets.QApplication.setFont(default_font)    # set the font for our application
 
+    # TODO: fill this comment out with something useful
     app = QtWidgets.QApplication(sys.argv)
     app.setFont(default_font)
 
+    # create our application window
     MainWindow = QtWidgets.QMainWindow()
     MainWindow.setFont(default_font)
 
+    # create our UI
     ui = Ui_MainWindow()
     ui.setupUI(MainWindow)
 
+    # show our UI
     MainWindow.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_())   # closes the app properly, when the user exits it

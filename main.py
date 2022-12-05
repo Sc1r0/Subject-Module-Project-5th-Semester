@@ -1,6 +1,7 @@
 # Files
 from KNN import KNNFromScratch as kNN
 from MainWindow import window as window
+from KNN_v2 import KNN_v2 as KNN_v2
 # from excel_sheet_data import X, y, X_train, X_test, y_train, y_test
 
 # Data manipulation
@@ -19,7 +20,15 @@ test_point = [-21, -25, -31, -22]
 if __name__ == '__main__':
     # run our window
     window()
+
     """
+    KNN = KNN_v2(5)
+    KNN.fit(X_train.values, y_train.values)
+    prediction = KNN.predict(test_point, y)
+    print("prediction:", prediction)
+
+    # KNN.evaluate_knn()
+    
     ############################### KNN WITHOUT LIBRARIES ###############################
     # the reason for 5, can be seen if "dia_viz.visualize_k_value()" is run
     k = 5

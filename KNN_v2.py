@@ -46,8 +46,24 @@ class KNN_v2:
         # save our predictions
         self._estimated_positions = self._predict(test_point, excel_XY_coordinates)
 
+        # calculate average of _estimated_positions, and return the singular value
+        # split the array into two different list
+        _estimated_positionsX, _estimated_positionsY = np.split(np.array(self._estimated_positions), 2, axis=1)
+
+        # flatten the 2-D list to a 1-D list
+        _estimated_positionsX = [item for sublist in _estimated_positionsX for item in sublist]
+        _estimated_positionsY = [item for sublist in _estimated_positionsY for item in sublist]
+
+        # calculate the average X and Y values
+        _average_X = sum(_estimated_positionsX) / len(_estimated_positionsX)
+        _average_Y = sum(_estimated_positionsY) / len(_estimated_positionsY)
+
+        # add the sum of each array divided by its length to a new array - this calculates the average X and Y
+        # coordinate
+        _estimated_positionsXY = [round(_average_X, 2), round(_average_Y, 2)]
+
         # return our predictions in a numpy array
-        return np.array(self._estimated_positions)
+        return _estimated_positionsXY
 
     # helper method for the predict() function
     def _predict(self, test_point, excel_XY_coordinates):
@@ -59,22 +75,20 @@ class KNN_v2:
 
         # saves the index number of the k closest neighbors (as calculated by euclidean distance)
         k_indices = np.argsort(distances)[:self._k]  # returns index number of k_indices of the distances list
+        print("k_indices:", k_indices)
 
         # save the ground truth locations to for each index+1 in y[].
         # +1 is because lists / arrays in python starts at index 0, but our datasheet starts at datapoint 1
         k_closest_ground_truths = all_ground_truths[k_indices]
         print("k_closest_ground_truths:", k_closest_ground_truths)
 
-        # save ground truth from y dataset from each index number in k_indices
-        k_nearest_labels = [self._y_train[i] for i in k_indices]
-        print("k_nearest_labels:", k_nearest_labels)
-
         # return the predicted X,Y values
-        return k_nearest_labels
+        return k_closest_ground_truths
 
-    def average_ground_truth(self):
-        pass
-
+    # TODO: Fill this method.
+    #   Ask Xiao for guidance.
+    #   issue: We have calculated the estimated X,Y position. How do we find the counter-part ground-truth to
+    #   evaluate the result of our prediction?
     def evaluate_knn(self, ground_truth, prediction):
         pass
 
