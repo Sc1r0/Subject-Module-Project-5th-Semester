@@ -137,7 +137,7 @@ class Ui_MainWindow(object):
         self.FindMeBtn.setObjectName("FindMeBtn")
         # FIXME: Below line causes the following error code: Process finished with exit code -1073740791 (0xC0000409).
         #   Unsure as to why or how to fix it.
-        self.FindMeBtn.clicked.connect(self.performKNN(5, self.getTestPoint()))
+        self.FindMeBtn.clicked.connect(lambda: self.performKNN(5, self.getTestPoint()))
 
         # Group Box containing UI components related to the result of the User Position calculation
         self.YourPositionGroupBox = QtWidgets.QGroupBox(self.centralwidget)
@@ -380,14 +380,10 @@ class Ui_MainWindow(object):
 
     def getTestPoint(self):
         # save values in a list
-        print("B2 input:", self.B2Input.text())
-        print("B3 input:", self.B3Input.text())
-        print("B4 input:", self.B4Input.text())
-        print("B5 input:", self.B5Input.text())
-
         beacon_values = [int(self.B2Input.text()), int(self.B3Input.text()),
                          int(self.B4Input.text()), int(self.B5Input.text())]
-        print(beacon_values)
+
+        print("beacon values:", beacon_values)
 
         return beacon_values
 
