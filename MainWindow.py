@@ -152,8 +152,8 @@ class Ui_MainWindow(object):
 
         # Estimated Position value:
         self.EstimatedPosition_value = QtWidgets.QLabel(self.YourPositionGroupBox)
-        self.EstimatedPosition_value.setGeometry(QtCore.QRect(170, 20, 61, 31))
-        self.EstimatedPosition_value.setAlignment(QtCore.Qt.AlignCenter)
+        self.EstimatedPosition_value.setGeometry(QtCore.QRect(160, 28, 70, 30))
+        self.EstimatedPosition_value.setAlignment(QtCore.Qt.AlignLeft)
         self.EstimatedPosition_value.setObjectName("EstimatedPosition_value")
 
         # GroupBox containing UI elements related to the Margin of Error calculation
@@ -162,15 +162,16 @@ class Ui_MainWindow(object):
         self.MarginOfErrorGroupBox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.MarginOfErrorGroupBox.setObjectName("MarginOfErrorGroupBox")
 
+        # FIXME: Label and Value ObjectNames needs to be switched around here and in "retranslateUI()"
         # Margin of Error label:
         self.MarginOfError_Label = QtWidgets.QLabel(self.MarginOfErrorGroupBox)
-        self.MarginOfError_Label.setGeometry(QtCore.QRect(140, 20, 61, 31))
-        self.MarginOfError_Label.setAlignment(QtCore.Qt.AlignCenter)
+        self.MarginOfError_Label.setGeometry(QtCore.QRect(12, 20, 101, 31))
         self.MarginOfError_Label.setObjectName("MarginOfError_Label")
 
         # Margin of Error value:
         self.MarginOfError_value = QtWidgets.QLabel(self.MarginOfErrorGroupBox)
-        self.MarginOfError_value.setGeometry(QtCore.QRect(12, 20, 101, 31))
+        self.MarginOfError_value.setGeometry(QtCore.QRect(110, 28, 80, 31))
+        self.MarginOfError_value.setAlignment(QtCore.Qt.AlignLeft)
         self.MarginOfError_value.setObjectName("MarginOfError_value")
 
         # List Widget
@@ -275,17 +276,22 @@ class Ui_MainWindow(object):
         self.ListWidgetGroupBox.setTitle(_translate("MainWindow", "Predefined RSSI Values"))
 
         # Estimated User Position GroupBox object and it's subcomponents
-        self.YourPositionGroupBox.setTitle(_translate("MainWindow", "Your Position"))
-        self.EstimatedPosition_value.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:9pt;\">X, Y</span></p></body></html>"))
-        self.EstimatedPosition_text.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:9pt; font-weight:600;\">Your estimated position:</span></p></body></html>"))
+        self.YourPositionGroupBox.setTitle(_translate("MainWindow", "Your Position [X, Y]"))
+        self.EstimatedPosition_value.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" "
+                                                                      "font-size:9pt;\">[X, "
+                                                                      "Y]</span></p></body></html>"))
+        self.EstimatedPosition_text.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" "
+                                                                     "font-size:9pt; font-weight:600;\">Your estimated "
+                                                                     "position:</span></p></body></html>"))
 
         # Margin of Error GroupBox object and it's subcomponents
         self.MarginOfErrorGroupBox.setTitle(_translate("MainWindow", "Margin of Error"))
-        self.MarginOfError_Label.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:9pt;\">0.0 "
+        self.MarginOfError_value.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" "
+                                                              "font-size:9pt;\">0.0 "
                                                 "meters</span></p></body></html>"))
-        self.MarginOfError_value.setToolTip(_translate("MainWindow", "Shows how much your position is offset by"))
-        self.MarginOfError_value.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:9pt; "
-                                               "font-weight:600;\">Margin of Error:</span></p></body></html>"))
+        self.MarginOfError_Label.setToolTip(_translate("MainWindow", "Shows how much your position is offset by"))
+        self.MarginOfError_Label.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:9pt; "
+                                               "font-weight:600;\">Error margin:</span></p></body></html>"))
 
         # Menu at the top and it's subcomponents
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
@@ -375,7 +381,11 @@ class Ui_MainWindow(object):
         print("our prediction:", prediction)
 
         # calculate the margin of error
-        # KNN.evaluate_knn()
+        # use KNN.evaluate_knn(y_test, prediction) function
+        knn_eval = KNN.evaluate_knn(y_test, prediction)
+
+        # set the value of below textfield to the result of above function
+        self.MarginOfError_value.setText(str(knn_eval) + " meters.")
 
         # plot our values into our GUI
         self.EstimatedPosition_value.setText(str(prediction))
@@ -388,14 +398,6 @@ class Ui_MainWindow(object):
         print("beacon values:", beacon_values)
 
         return beacon_values
-
-    def evaluateKNN(self):
-        # use KNN.evaluate_knn(ground_truth, test_point) function
-
-        # set the value of self.MarginOfError_value.setText(str()) to the result of above function
-
-        pass
-
 
 
 def window():

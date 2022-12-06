@@ -2,7 +2,8 @@
 import numpy as np
 
 # Euclidean distance
-from euclidean_distance import euclidean_distance as e_distance, euclidean_distance_multi as e_multi
+from euclidean_distance import euclidean_distance as e_distance, euclidean_distance_beacons as e_multi, \
+    euclidean_distance_XY as e_XY
 
 
 class KNN_v2:
@@ -31,6 +32,7 @@ class KNN_v2:
         self._estimated_positions = None
         self._k_closest_ground_truths = None
         self._k_nearest_labels = None
+        self._estimated_positionsXY = None
 
         # Needed for Prediction & Evaluation
         self._k_indices = None
@@ -40,6 +42,9 @@ class KNN_v2:
     def fit(self, X, y):
         self._X_train = X
         self._y_train = y
+
+    def clean_data(self):
+        pass
 
     # predict our estimated position(s)
     def predict(self, test_point, excel_XY_coordinates):
@@ -60,30 +65,28 @@ class KNN_v2:
 
         # add the sum of each array divided by its length to a new array - this calculates the average X and Y
         # coordinate
-        _estimated_positionsXY = [round(_average_X, 2), round(_average_Y, 2)]
+        self._estimated_positionsXY = [round(_average_X, 2), round(_average_Y, 2)]
 
         # return our predictions in a numpy array
-        return _estimated_positionsXY
+        return self._estimated_positionsXY
 
     # helper method for the predict() function
     def _predict(self, test_point, excel_XY_coordinates):
         # save all ground_truths from our 'y' array containing all X,Y coordinates from collected datapoints
-        all_ground_truths = np.array(excel_XY_coordinates)
+        self._all_ground_truths = np.array(excel_XY_coordinates)
 
         # Calculate euclidean distance from test_pint to each index in X_train
         distances = [e_multi(test_point, x_train) for x_train in self._X_train]
 
         # saves the index number of the k closest neighbors (as calculated by euclidean distance)
-        k_indices = np.argsort(distances)[:self._k]  # returns index number of k_indices of the distances list
-        print("k_indices:", k_indices)
+        self._k_indices = np.argsort(distances)[:self._k]  # returns index number of k_indices of the distances list
 
         # save the ground truth locations to for each index+1 in y[].
         # +1 is because lists / arrays in python starts at index 0, but our datasheet starts at datapoint 1
-        k_closest_ground_truths = all_ground_truths[k_indices]
-        print("k_closest_ground_truths:", k_closest_ground_truths)
+        self._k_closest_ground_truths = self._all_ground_truths[self._k_indices]
 
         # return the predicted X,Y values
-        return k_closest_ground_truths
+        return self._k_closest_ground_truths
 
     # TODO: Fill this method.
     #   Ask Xiao for guidance.
@@ -91,11 +94,40 @@ class KNN_v2:
     #   evaluate the result of our prediction?
     def evaluate_knn(self, ground_truth, prediction):
         # use the y_test array to calculate the euclidean distance to k_nearest indexes
+        _ground_truth = np.array(ground_truth)
+        _prediction = np.array(prediction)
+
+        # calculate distances
+        _distances = [e_XY(prediction, y_test) for y_test in _ground_truth]
+        print("eval distances:", _distances)
+
+        # saves the index number of the k closest neighbors (as calculated by euclidean distance)
+        _k_indices = np.argsort(_distances)[:self._k]
+        print("eval k_indices:", _k_indices)
+
+        # save the ground truth locations to for each index+1 in y[].
+        # +1 is because lists / arrays in python starts at index 0, but our datasheet starts at datapoint 1
+        _k_closest_ground_truths = _ground_truth[_k_indices]
+        print("eval k_closest:", _k_closest_ground_truths)
 
         # calculate the average of these k_nearest values
+        # split the array into X and Y
+        _ground_truthX, _ground_truthY = np.split(np.array(_k_closest_ground_truths), 2, axis=1)
+
+        # flatten the 2-D list to a 1-D list
+        _ground_truthX = [item for sublist in _ground_truthX for item in sublist]
+        _ground_truthY = [item for sublist in _ground_truthY for item in sublist]
+
+        # calculate the average X and Y values
+        _average_X = sum(_ground_truthX) / len(_ground_truthX)
+        _average_Y = sum(_ground_truthY) / len(_ground_truthY)
+
+        _ground_truthXY = np.array([round(_average_X, 2), round(_average_Y, 2)])
+        print("eval ground_truth_average:", _ground_truthXY)
 
         # compute the euclidean distance between the test_point and the average k_nearest value
+        knn_eval = round(e_XY(prediction, _ground_truthXY), 2)
+        print("knn_eval:", knn_eval)
 
         # return the result
-        pass
-
+        return knn_eval

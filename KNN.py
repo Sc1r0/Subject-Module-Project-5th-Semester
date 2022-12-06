@@ -2,7 +2,7 @@
 import numpy as np
 
 # Other
-from euclidean_distance import euclidean_distance, euclidean_distance_multi
+from euclidean_distance import euclidean_distance, euclidean_distance_beacons
 
 from excel_sheet_data import X as B_values
 
@@ -35,7 +35,7 @@ class KNNFromScratch:
         global groundtruth  # defined as global variable, to access it in ground_truth()
 
         y = np.array(y)
-        distances = [euclidean_distance_multi(x, x_train) for x_train in self.X_train]
+        distances = [euclidean_distance_beacons(x, x_train) for x_train in self.X_train]
         print("Our distances:", distances)
         # get closest K (indices = Latin for 'plural of index')
         # saves the index number of the k closest neighbors (as calculated by euclidean distance)

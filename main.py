@@ -13,7 +13,7 @@ from sklearn.neighbors import KNeighborsRegressor  # is used to calculate the ne
 from sklearn.model_selection import train_test_split  # is used to split our dataset into training and testing sets.
 from sklearn.metrics import mean_squared_error  # is used to calculate the quality of our model
 
-from excel_sheet_data import X_train, y_train, y
+from excel_sheet_data import X_train, y_train, y, y_test, X_test
 
 test_point = [-21, -25, -31, -22]
 
@@ -21,14 +21,14 @@ if __name__ == '__main__':
     # run our window
     window()
 
-    """
-    KNN = KNN_v2(5)
-    KNN.fit(X_train.values, y_train.values)
-    prediction = KNN.predict(test_point, y)
-    print("prediction:", prediction)
+    #KNN = KNN_v2(5)
+    #KNN.fit(X_train.values, y_train.values)
+    #prediction = KNN.predict(test_point, y)
+    #print("prediction:", prediction)
 
-    # KNN.evaluate_knn()
-    
+    #KNN.evaluate_knn(y_test, prediction)
+
+    """
     ############################### KNN WITHOUT LIBRARIES ###############################
     # the reason for 5, can be seen if "dia_viz.visualize_k_value()" is run
     k = 5
