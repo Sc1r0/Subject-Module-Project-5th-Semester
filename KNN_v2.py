@@ -90,5 +90,12 @@ class KNN_v2:
     #   issue: We have calculated the estimated X,Y position. How do we find the counter-part ground-truth to
     #   evaluate the result of our prediction?
     def evaluate_knn(self, ground_truth, prediction):
+        # use the y_test array to calculate the euclidean distance to k_nearest indexes
+
+        # calculate the average of these k_nearest values
+
+        # compute the euclidean distance between the test_point and the average k_nearest value
+
+        # return the result
         pass
 

@@ -372,11 +372,13 @@ class Ui_MainWindow(object):
         # predict values
         prediction = KNN.predict(test_point, y)
 
+        print("our prediction:", prediction)
+
         # calculate the margin of error
         # KNN.evaluate_knn()
 
         # plot our values into our GUI
-        self.EstimatedPosition_value.setText(prediction)
+        self.EstimatedPosition_value.setText(str(prediction))
 
     def getTestPoint(self):
         # save values in a list
@@ -386,6 +388,14 @@ class Ui_MainWindow(object):
         print("beacon values:", beacon_values)
 
         return beacon_values
+
+    def evaluateKNN(self):
+        # use KNN.evaluate_knn(ground_truth, test_point) function
+
+        # set the value of self.MarginOfError_value.setText(str()) to the result of above function
+
+        pass
+
 
 
 def window():
