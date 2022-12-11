@@ -11,5 +11,5 @@ dataset = pd.read_excel("Marvelmind(X,Y,RSSI).xlsx", sheet_name="Square")
 X = dataset[['b2', 'b3', 'b4', 'b5']]  # the RSSI values from the beacons
 y = dataset[['X', 'Y']]  # our X and Y coordinates from the modem
 
-# train the model
+# split the dataset
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)

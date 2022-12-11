@@ -71,16 +71,16 @@
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
-    <widget class="QGraphicsView" name="MapGraphic">
+    <widget class="QWidget" name="MapWidget" native="true">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>10</x>
        <y>20</y>
-       <width>531</width>
+       <width>551</width>
        <height>251</height>
       </rect>
      </property>
-     <property name="cursor" stdset="0">
+     <property name="cursor">
       <cursorShape>ForbiddenCursor</cursorShape>
      </property>
     </widget>
@@ -120,8 +120,14 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
      <property name="toolTip">
       <string/>
+     </property>
+     <property name="placeholderText">
+      <string>-46</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="B2Input">
@@ -133,8 +139,14 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
      <property name="toolTip">
       <string/>
+     </property>
+     <property name="placeholderText">
+      <string>-31</string>
      </property>
     </widget>
     <widget class="QLabel" name="B2Label">
@@ -156,7 +168,7 @@
       <number>-1</number>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Beacon 1:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Beacon 1:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="B4Label">
@@ -175,7 +187,7 @@
       <string>Type in an RSSI value between -10 and -70</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Beacon 3:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Beacon 3:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="B5Input">
@@ -187,11 +199,17 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
      <property name="toolTip">
       <string/>
      </property>
      <property name="toolTipDuration">
       <number>2</number>
+     </property>
+     <property name="placeholderText">
+      <string>-29</string>
      </property>
     </widget>
     <widget class="QLabel" name="B5Label">
@@ -210,7 +228,7 @@
       <string>Type in an RSSI value between -10 and -70</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Beacon 4:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Beacon 4:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="B3Label">
@@ -229,7 +247,7 @@
       <string>Type in an RSSI value between -10 and -70</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Beacon 2:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Beacon 2:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="B3Input">
@@ -241,8 +259,14 @@
        <height>20</height>
       </rect>
      </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
      <property name="toolTip">
       <string/>
+     </property>
+     <property name="placeholderText">
+      <string>-42</string>
      </property>
     </widget>
     <widget class="QPushButton" name="FindMeBtn">
@@ -303,9 +327,6 @@
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;X, Y&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
     </widget>
     <widget class="QLabel" name="EstimatedPosition_text">
      <property name="geometry">
@@ -350,7 +371,7 @@
     <widget class="QLabel" name="EstimatedPosition_value_2">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>120</x>
        <y>20</y>
        <width>61</width>
        <height>31</height>
@@ -358,9 +379,6 @@
      </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;0.0 meters&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLabel" name="EstimatedPosition_text_2">
@@ -372,6 +390,9 @@
        <height>31</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>WhatsThisCursor</cursorShape>
+     </property>
      <property name="toolTip">
       <string>Shows how much your position is offset by</string>
      </property>
@@ -380,26 +401,97 @@
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="ListWidgetGroupBox">
+   <widget class="QGroupBox" name="PredefinedRSSIGroupBox">
     <property name="geometry">
      <rect>
       <x>600</x>
       <y>10</y>
       <width>221</width>
-      <height>531</height>
+      <height>401</height>
      </rect>
     </property>
     <property name="title">
      <string>Predefined RSSI Values</string>
     </property>
-    <widget class="QListWidget" name="listWidget">
+    <widget class="QListWidget" name="PredefinedRSSIValues">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>20</y>
        <width>201</width>
-       <height>501</height>
+       <height>371</height>
       </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="KValue_KNNMethod">
+    <property name="geometry">
+     <rect>
+      <x>599</x>
+      <y>420</y>
+      <width>221</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>K-value and KNN method</string>
+    </property>
+    <widget class="QRadioButton" name="KNNFromScratch">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>111</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>KNN from scratch</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="KNNWithLibraries">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>90</y>
+       <width>151</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>KNN with sci-kit libraries</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="KvalueValue">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>201</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="placeholderText">
+      <string>K-value (1-15)</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="KvalueLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>191</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>WhatsThisCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string>Choose a K-value. For picking the optimized one, run the Best K-value diagram, in &quot;Diagrams -&gt; Best K-value&quot;</string>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;K-value:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>
@@ -421,7 +513,16 @@
     <addaction name="separator"/>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuDiagrams">
+    <property name="title">
+     <string>Diagrams</string>
+    </property>
+    <addaction name="actionBest_K_value_1_15"/>
+    <addaction name="separator"/>
+    <addaction name="actionK_nearest_distances"/>
+   </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuDiagrams"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionClose">
@@ -443,6 +544,16 @@
   <action name="actionShow_help_window">
    <property name="text">
     <string>Show 'help' window</string>
+   </property>
+  </action>
+  <action name="actionBest_K_value_1_15">
+   <property name="text">
+    <string>Best K-value (1-15)</string>
+   </property>
+  </action>
+  <action name="actionK_nearest_distances">
+   <property name="text">
+    <string>K-nearest distances</string>
    </property>
   </action>
  </widget>

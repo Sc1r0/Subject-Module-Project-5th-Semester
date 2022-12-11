@@ -2,7 +2,7 @@
 import numpy as np  # used to calculate the square root in the euclidean distance function
 
 
-# method to calculate the margin of error in KNN.py
+# method to calculate the margin of error in KNNWithLibraries.py
 def euclidean_distance(row1, row2):
     distance = np.sqrt(np.sum(row1[0, 0] - row2[0, 0]) ** 2)
     return distance
@@ -15,6 +15,7 @@ def euclidean_distance_XY(row1, row2):
         )
     )
     return distance
+
 
 # method to calculate the euclidean distance between multiple columns
 def euclidean_distance_beacons(row1, row2):
