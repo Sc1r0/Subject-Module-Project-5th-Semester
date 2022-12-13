@@ -32,7 +32,7 @@ class KNNWithLibraries:
         Predicts the X,Y location.
         :return: The predicted X,Y location
         """
-        # predictions - returns predicted values
+        # save test_point variable and reshape multi-dimensional array into a 1-D array
         test_point = np.array(test_point)
         test_point = test_point.reshape(1, -1)
         self.KNN_predictions = self.KNN_model.predict(test_point)
@@ -53,6 +53,5 @@ class KNNWithLibraries:
         """
         # model evaluation - returns margin of error in meters
         self.KNN_eval = mean_squared_error(y_test, self.KNN_predictions)
-        print("RMSE (KNN Library):", self.KNN_eval)
 
         return self.KNN_eval

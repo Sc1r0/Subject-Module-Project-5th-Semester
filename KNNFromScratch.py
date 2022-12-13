@@ -64,12 +64,15 @@ class KNNFromScratch:
         self._all_ground_truths = np.array(excel_XY_coordinates)
         # Calculate euclidean distance from test_point to each index in X_train
         distances = [e_multi(test_point, x_train) for x_train in self._X_train]
+        print(distances)
         # saves the index number of the k closest neighbors (as calculated by euclidean distance)
         self._k_indices = np.argsort(distances)[:self._k]  # returns index number of k_indices of the distances list
+        print(self._k_indices)
         # save the ground truth locations to for each index+1 in y[].
         # +1 is because lists / arrays in python starts at index 0, but our datasheet starts at datapoint 1
         self._k_closest_ground_truths = self._all_ground_truths[self._k_indices]
-        # return the predicted X,Y values
+        print(self._k_closest_ground_truths)
+        # return the closest X,Y values
         return self._k_closest_ground_truths
 
     def evaluate_knn(self, prediction):

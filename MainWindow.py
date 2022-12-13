@@ -5,7 +5,7 @@ import webbrowser
 
 # PyQt5 modules
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import QRegExp, QRect, QCoreApplication, Qt
+from PyQt5.QtCore import QRegExp, QRect, QCoreApplication
 from PyQt5.QtGui import QRegExpValidator, QCursor
 from PyQt5.QtWidgets import QMessageBox, QMenuBar, QMenu, QStatusBar, QAction, QLabel, QLineEdit, QRadioButton, \
     QGroupBox, QListWidget, QWidget, qApp
@@ -70,7 +70,7 @@ class Ui_MainWindow(object):
         self.B2Input = None
         self.RSSIValuesGroupBox = None
 
-    def setupUI(self, MainWindow):
+    def setupUI(self, object):
         """
         Set up barebone objects needed in our GUI.
 
@@ -95,38 +95,38 @@ class Ui_MainWindow(object):
         Whereas, 'clicked.connect()' only works for items, that can't be 'triggered' by a shortcut, i.e. buttons.
         """
         # Main Window set up
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(841, 592)
-        MainWindow.setFixedSize(841, 592)
+        object.setObjectName("MainWindow")
+        object.resize(841, 592)
+        object.setFixedSize(841, 592)
         font = QtGui.QFont()  # create font object
         font.setFamily("Arial")  # set font family
         font.setWeight(50)  # set font weight
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        MainWindow.setFont(font)  # set the font for our main window
-        MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
-        MainWindow.setWindowIcon(QtGui.QIcon("icon.svg"))  # add application icon
+        object.setFont(font)  # set the font for our main window
+        object.setTabShape(QtWidgets.QTabWidget.Rounded)
+        object.setWindowIcon(QtGui.QIcon("icon.svg"))  # add application icon
 
         # Menu Items
         self.actionClose = QAction("&Exit")
         self.actionClose.setObjectName(u"actionClose")
         self.actionClose.triggered.connect(qApp.quit)
 
-        self.actionAbout = QAction(MainWindow)
+        self.actionAbout = QAction(object)
         self.actionAbout.setObjectName(u"actionAbout")
         self.actionAbout.triggered.connect(lambda: self.about())
 
         # FIXME: Add a proper method to the triggered.connect() function for Best_K_value diagram.
-        self.actionBest_K_value_1_15 = QAction(MainWindow)
+        self.actionBest_K_value_1_15 = QAction(object)
         self.actionBest_K_value_1_15.setObjectName(u"actionBest_K_value_1_15")
         self.actionBest_K_value_1_15.triggered.connect(lambda: print("best K value (hardcoded): ", 6))
 
         # FIXME: Add a proper method to the triggered.connect() function for k_nearest_distances diagram.
-        self.actionK_nearest_distances = QAction(MainWindow)
+        self.actionK_nearest_distances = QAction(object)
         self.actionK_nearest_distances.setObjectName(u"actionK_nearest_distances")
         self.actionK_nearest_distances.triggered.connect(lambda: print("K-nearest distances: UNABLE TO CALCULATE"))
 
         # Create Widget within the Window Frame
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget = QtWidgets.QWidget(object)
         self.centralwidget.setAutoFillBackground(True)
         self.centralwidget.setObjectName("centralwidget")
 
@@ -141,7 +141,7 @@ class Ui_MainWindow(object):
         self.MapGroupBox.setGeometry(QtCore.QRect(20, 120, 571, 281))
         self.MapGroupBox.setToolTip("")
         self.MapGroupBox.setAutoFillBackground(False)
-        self.MapGroupBox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.MapGroupBox.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.MapGroupBox.setObjectName("MapGroupBox")
 
         # Create layout for MapGroupBox
@@ -166,7 +166,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(9)
         self.RSSIValuesGroupBox.setFont(font)
-        self.RSSIValuesGroupBox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.RSSIValuesGroupBox.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.RSSIValuesGroupBox.setObjectName("RSSIValuesGroupBox")
 
         # Add Input Fields for all 4 beacons
@@ -237,7 +237,7 @@ class Ui_MainWindow(object):
         # Group Box containing UI components related to the result of the User Position calculation
         self.YourPositionGroupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.YourPositionGroupBox.setGeometry(QtCore.QRect(350, 410, 241, 61))
-        self.YourPositionGroupBox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.YourPositionGroupBox.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.YourPositionGroupBox.setObjectName("YourPositionGroupBox")
 
         # Estimated Position label:
@@ -254,7 +254,7 @@ class Ui_MainWindow(object):
         # GroupBox containing UI elements related to the Margin of Error calculation
         self.MarginOfErrorGroupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.MarginOfErrorGroupBox.setGeometry(QtCore.QRect(350, 480, 241, 61))
-        self.MarginOfErrorGroupBox.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.MarginOfErrorGroupBox.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.MarginOfErrorGroupBox.setObjectName("MarginOfErrorGroupBox")
 
         # Margin of Error label:
@@ -304,8 +304,8 @@ class Ui_MainWindow(object):
         self.KvalueLabel.setGeometry(QRect(10, 20, 191, 16))
         self.KvalueLabel.setCursor(QCursor(QtCore.Qt.WhatsThisCursor))
 
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QMenuBar(MainWindow)
+        object.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(object)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 841, 21))
 
@@ -314,11 +314,11 @@ class Ui_MainWindow(object):
 
         self.menuDiagrams = QMenu(self.menubar)
         self.menuDiagrams.setObjectName(u"menuDiagrams")
-        MainWindow.setMenuBar(self.menubar)
+        object.setMenuBar(self.menubar)
 
-        self.statusbar = QStatusBar(MainWindow)
+        self.statusbar = QStatusBar(object)
         self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        object.setStatusBar(self.statusbar)
 
         self.menuMenu.addAction(self.actionClose)
         self.menuMenu.addSeparator()
@@ -331,10 +331,10 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuDiagrams.menuAction())
 
         # Fill our UI components with text and format it.
-        self.retranslateUi(MainWindow)
+        self.retranslateUi(object)
 
         # Is to catch any event-driven signals, our UI may generate.
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(object)
         """
         Example:
         
@@ -347,7 +347,7 @@ class Ui_MainWindow(object):
         See https://doc.qt.io/qt-5/qmetaobject.html#connectSlotsByName for more information.
         """
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, object):
         """
         Add all necessary information to our GUI objects from MainWindow.setupUI(), like:\n
         - Setting Window Title.\n
@@ -357,7 +357,7 @@ class Ui_MainWindow(object):
         """
         _translate = QtCore.QCoreApplication.translate
         # Window Title
-        MainWindow.setWindowTitle(_translate("MainWindow", "Find My Location"))
+        object.setWindowTitle(_translate("MainWindow", "Find My Location"))
 
         # Set text of our Instruction label
         self.Instructions.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; "
@@ -403,12 +403,13 @@ class Ui_MainWindow(object):
 
         # Margin of Error GroupBox object and it's subcomponents
         self.MarginOfErrorGroupBox.setTitle(_translate("MainWindow", "Margin of Error"))
-        self.MarginOfError_value.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" "
-                                                              "font-size:9pt;\">0.0 "
-                                                "meters</span></p></body></html>"))
+        self.MarginOfError_value.setText(_translate("MainWindow", "<html><head/><body><p><span "
+                                                                  "style=\"font-size:9pt;\">0.0 meters</span></p"
+                                                                  "></body></html>"))
         self.MarginOfError_Label.setToolTip(_translate("MainWindow", "Shows how much your position is offset by"))
         self.MarginOfError_Label.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:9pt; "
-                                               "font-weight:600;\">Error margin:</span></p></body></html>"))
+                                                                  "font-weight:600;\">Error "
+                                                                  "margin:</span></p></body></html>"))
 
         # K-value and KNN method
         self.KValue_KNNMethod.setTitle(QCoreApplication.translate("MainWindow", u"K-value and KNN method"))
@@ -523,13 +524,12 @@ class Ui_MainWindow(object):
         """
         A method to run the KNNFromScratch algorithm - see KNNFromScratch.py. Shows a QMessageBox with an error,
         if the passed test_point variable is empty or partly empty.
-        :param k: the amount of nearest neighbors, one wishes to look at.
         :param test_point: the four values of the Beacon 1-4 text fields.
         """
         if not test_point or not self.KvalueValue.text():
-            self.error_message_box("MISSING VALUES", "You are missing either: "
-                                                     "\n- one or more RSSI values"
-                                                     "\n- the K-value")
+            self.error_message_box("MISSING VALUES", "You are either missing: "
+                                                     "\n1) one or more RSSI values"
+                                                     "\n2) the K-value")
 
         else:
             # instantiate our KNN model and give it a k value
@@ -558,14 +558,13 @@ class Ui_MainWindow(object):
         """
         A method to run the KNNWithLibraries algorithm - see KNNWithLibraries.py. Shows a QMessageBox with an error,
         if the passed test_point variable is empty or partly empty.
-        :param k: the amount of nearest neighbors, one wishes to look at.
         :param test_point: the four values of the Beacon 1-4 text fields.
         """
 
         if not test_point or not self.KvalueValue.text():
-            self.error_message_box("MISSING VALUES", "You are missing either: "
-                                                     "\n- one or more RSSI values"
-                                                     "\n- the K-value")
+            self.error_message_box("MISSING VALUES", "You are either missing: "
+                                                     "\n1) one or more RSSI values"
+                                                     "\n2) the K-value")
 
         else:
             # instantiate our KNN model and give it a k value
@@ -639,8 +638,8 @@ class Ui_MainWindow(object):
         # clear the canvas
         self.Figure.clear()
         # set max size of the graph window
-        #plt.xlim(0, 15)
-        #plt.ylim(0, 15)
+        # plt.xlim(0, 15)
+        # plt.ylim(0, 15)
         # draw a grid in the graph window
         plt.grid()
         # plot the X,Y coordinate onto the canvas
@@ -666,7 +665,7 @@ class Ui_MainWindow(object):
         msgbox.setWindowTitle(title)
         # set messagebox text
         msgbox.setText(errormessage)
-        # execute the message box, showing it upon pressing "about" in the menu.
+        # execute the message box
         msgbox.exec()
 
     # function to show best k-value
@@ -677,42 +676,12 @@ class Ui_MainWindow(object):
         """
         pass
 
-    # function to show the k nearest distances
+    # function to show the k-nearest distances
     def nearest_distances_diagram(self):
         """
         A method to create a diagram, showing a graph containing the k-nearest distances on a plot.
         """
         pass
-
-
-class BestKValue(FigureCanvas):
-    def __init__(self, parent):
-        fig, self.ax = plt.subplots(figsize=(10, 10), dpi=200)
-        super().__init__(fig)
-        self.setParent(parent)
-
-        # MatPlotLib
-        margin_of_error = []
-        for i in range(1, 15):
-            KNN = KNNFS(k=i)
-            KNN.fit(X_train.values, y_train.values)
-            our_predictions = KNN.predict(X_test.values, y_train)
-            margin_of_error.append(KNN.evaluate_knn(our_predictions))
-
-        self.ax.plot(range(1, 15), margin_of_error)
-        self.ax.set(xlabel="k-value", ylabel="margin of error (in meters)", title="Margin of Error by K-value")
-        self.ax.grid()
-
-
-class BestKValueWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.resize(800, 640)
-        chart = BestKValue(self)
-
-    def showDiagram(self):
-        self.diagram = BestKValueWindow()
-        self.diagram.show()
 
 
 def window():
@@ -724,7 +693,7 @@ def window():
     # set default font
     default_font = QtGui.QFont('Arial', 12)
     default_font.setPixelSize(12)
-    QtWidgets.QApplication.setFont(default_font)    # set the font for our application
+    QtWidgets.QApplication.setFont(default_font)  # set the font for our application
     # create our PyQt5 application
     app = QtWidgets.QApplication(sys.argv)
     app.setFont(default_font)
@@ -733,9 +702,9 @@ def window():
     MainWindow.setFont(default_font)
     # create our UI Object from our Ui_MainWindow class
     ui = Ui_MainWindow()
-    # run the set-up method, creating and placing all our GUI components
+    # run the set-up method, creating and placing all our GUI components inside our MainWindow.
     ui.setupUI(MainWindow)
     # show our UI
     MainWindow.show()
-    # closes the app properly, when the user exits it
+    # close the app, when the user exits it
     sys.exit(app.exec_())
