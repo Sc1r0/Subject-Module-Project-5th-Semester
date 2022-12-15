@@ -46,12 +46,12 @@ class KNNWithLibraries:
         # return our predicted X,Y coordinate
         return self.KNN_predictions
 
-    def model_evaluation(self):
+    def model_evaluation(self, prediction, groundtruth_counterpart):
         """
         Calculates the Margin of Error.
         :return: the Margin of Error.
         """
         # model evaluation - returns margin of error in meters
-        self.KNN_eval = mean_squared_error(y_test, self.KNN_predictions)
+        self.KNN_eval = mean_squared_error(groundtruth_counterpart, prediction)
 
         return self.KNN_eval

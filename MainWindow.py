@@ -3,6 +3,9 @@
 import sys
 import webbrowser
 
+# diagrams & needed modules
+import matplotlib.pyplot as plt
+
 # PyQt5 modules
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QRegExp, QRect, QCoreApplication
@@ -10,8 +13,7 @@ from PyQt5.QtGui import QRegExpValidator, QCursor
 from PyQt5.QtWidgets import QMessageBox, QMenuBar, QMenu, QStatusBar, QAction, QLabel, QLineEdit, QRadioButton, \
     QGroupBox, QListWidget, QWidget, qApp
 
-# diagrams & needed modules
-import matplotlib.pyplot as plt
+# used to show the users position on a graph
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 # KNN models
@@ -28,6 +30,7 @@ class Ui_MainWindow(object):
         """
         Initialize all self.objects needed in this class.
         """
+        self.actionAllRSSIValues = None
         self.MapGroupBox_horizontal_layout = None
         self.Figure = None
         self.Canvas = None
@@ -118,12 +121,17 @@ class Ui_MainWindow(object):
         # FIXME: Add a proper method to the triggered.connect() function for Best_K_value diagram.
         self.actionBest_K_value_1_15 = QAction(object)
         self.actionBest_K_value_1_15.setObjectName(u"actionBest_K_value_1_15")
-        self.actionBest_K_value_1_15.triggered.connect(lambda: print("best K value (hardcoded): ", 6))
+        self.actionBest_K_value_1_15.triggered.connect(lambda: Optimal_K_value())
 
         # FIXME: Add a proper method to the triggered.connect() function for k_nearest_distances diagram.
         self.actionK_nearest_distances = QAction(object)
         self.actionK_nearest_distances.setObjectName(u"actionK_nearest_distances")
-        self.actionK_nearest_distances.triggered.connect(lambda: print("K-nearest distances: UNABLE TO CALCULATE"))
+        self.actionK_nearest_distances.triggered.connect(lambda: print("K-nearest distances..."))
+
+        # FIXME: Add a proper method to the triggered.conncet() function for AllRSSIValues.
+        self.actionAllRSSIValues = QAction(object)
+        self.actionAllRSSIValues.setObjectName(u"actionAllRSSIValues")
+        self.actionAllRSSIValues.triggered.connect(lambda: print("all RSSI values..."))
 
         # Create Widget within the Window Frame
         self.centralwidget = QtWidgets.QWidget(object)
@@ -232,7 +240,7 @@ class Ui_MainWindow(object):
         self.FindMeBtn.setGeometry(QtCore.QRect(10, 80, 301, 41))
         self.FindMeBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.FindMeBtn.setObjectName("FindMeBtn")
-        self.FindMeBtn.clicked.connect(lambda: self.checkKNNMethod())
+        self.FindMeBtn.clicked.connect(lambda: self.checkKNN())
 
         # Group Box containing UI components related to the result of the User Position calculation
         self.YourPositionGroupBox = QtWidgets.QGroupBox(self.centralwidget)
@@ -259,12 +267,12 @@ class Ui_MainWindow(object):
 
         # Margin of Error label:
         self.MarginOfError_Label = QtWidgets.QLabel(self.MarginOfErrorGroupBox)
-        self.MarginOfError_Label.setGeometry(QtCore.QRect(12, 20, 101, 31))
+        self.MarginOfError_Label.setGeometry(QtCore.QRect(12, 20, 200, 31))
         self.MarginOfError_Label.setObjectName("MarginOfError_Label")
 
         # Margin of Error value:
         self.MarginOfError_value = QtWidgets.QLabel(self.MarginOfErrorGroupBox)
-        self.MarginOfError_value.setGeometry(QtCore.QRect(95, 28, 200, 31))
+        self.MarginOfError_value.setGeometry(QtCore.QRect(155, 28, 200, 31))
         self.MarginOfError_value.setAlignment(QtCore.Qt.AlignLeft)
         self.MarginOfError_value.setObjectName("MarginOfError_value")
 
@@ -328,6 +336,8 @@ class Ui_MainWindow(object):
         self.menuDiagrams.addAction(self.actionBest_K_value_1_15)
         self.menuDiagrams.addSeparator()
         self.menuDiagrams.addAction(self.actionK_nearest_distances)
+        self.menuDiagrams.addSeparator()
+        self.menuDiagrams.addAction(self.actionAllRSSIValues)
         self.menubar.addAction(self.menuDiagrams.menuAction())
 
         # Fill our UI components with text and format it.
@@ -363,7 +373,7 @@ class Ui_MainWindow(object):
         self.Instructions.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; "
                                                            "font-weight:600;\">Instructions:</span></p><p>Enter "
                                                            "4 negative values or choose a set of RSSI values from the "
-                                                           "list to the right.</p>"
+                                                           "list to the right, and a k-value.</p>"
                                                            "<p>These values have to be between -10 and -70. Anything "
                                                            "but negative values will not be tolerated.</p>"
                                                            "<p>Once filled, press the &quot;Locate Me!&quot; button "
@@ -408,8 +418,8 @@ class Ui_MainWindow(object):
                                                                   "></body></html>"))
         self.MarginOfError_Label.setToolTip(_translate("MainWindow", "Shows how much your position is offset by"))
         self.MarginOfError_Label.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:9pt; "
-                                                                  "font-weight:600;\">Error "
-                                                                  "margin:</span></p></body></html>"))
+                                                                  "font-weight:600;\">Average Margin of Error:</span>"
+                                                                  "</p></body></html>"))
 
         # K-value and KNN method
         self.KValue_KNNMethod.setTitle(QCoreApplication.translate("MainWindow", u"K-value and KNN method"))
@@ -440,6 +450,11 @@ class Ui_MainWindow(object):
         self.actionBest_K_value_1_15.setText(_translate("MainWindow", "Best K-Value (1-15)"))
         self.actionBest_K_value_1_15.setStatusTip(_translate("MainWindow", "Shows a diagram of the best k-values "
                                                                            "from 1-15"))
+
+        self.actionAllRSSIValues.setText(_translate("MainWindow", "All RSSI Values for each Beacon"))
+        self.actionAllRSSIValues.setStatusTip(_translate("MainWindow", "Shows 4 diagrams, one for each beacon, "
+                                                                       "and plots all their corresponding RSSI "
+                                                                       "values"))
 
     def about(self):
         """
@@ -576,8 +591,11 @@ class Ui_MainWindow(object):
             # predict values
             prediction = KNN.predict(test_point)
 
+            # evaluation = KNN.model_evaluation(, prediction)
+            # print(evaluation)
+
             # set the value of below textfield to the result of above function
-            self.MarginOfError_value.setText("Calculation failed!")
+            self.MarginOfError_value.setText("No result.")
 
             # plot our values into our GUI
             self.EstimatedPosition_value.setText(str(prediction))
@@ -596,7 +614,7 @@ class Ui_MainWindow(object):
         # otherwise, return None
         return None
 
-    def checkKNNMethod(self):
+    def checkKNN(self):
         """
         A method to check which QRadioButton is checked in our GUI. Depending on which QRadioButton is checked,
         perform either "KNN From Scratch" method or the "KNN With Libraries" method.
@@ -667,21 +685,6 @@ class Ui_MainWindow(object):
         msgbox.setText(errormessage)
         # execute the message box
         msgbox.exec()
-
-    # function to show best k-value
-    def k_value_diagram(self):
-        """
-        A method to create a diagram, showing a graph containing the Margin of Error result from k-value 1-15,
-        on a plot.
-        """
-        pass
-
-    # function to show the k-nearest distances
-    def nearest_distances_diagram(self):
-        """
-        A method to create a diagram, showing a graph containing the k-nearest distances on a plot.
-        """
-        pass
 
 
 def window():
