@@ -166,7 +166,7 @@ class Ui_MainWindow(object):
 
         # Add Canvas to Map Widget
         self.MapGroupBox_horizontal_layout.addWidget(self.Canvas)
-        # FIXME: also makes it possible to enter positive values: we don't want this!
+
         # Add Group Box for the RSSI related UI components
         self.RSSIValuesGroupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.RSSIValuesGroupBox.setGeometry(QRect(20, 410, 321, 131))
@@ -174,6 +174,7 @@ class Ui_MainWindow(object):
 
         # Add Input Fields for all 4 beacons
         # accept only integers
+        # FIXME: also makes it possible to enter positive values: we don't want this!
         only_integers = QRegExp("[1-9]\\d{1}")
         only_integers_negative = QRegExp("[-]?[1-9]\\d{1}")
 
