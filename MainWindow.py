@@ -121,17 +121,17 @@ class Ui_MainWindow(object):
         # FIXME: Add a proper method to the triggered.connect() function for Best_K_value diagram.
         self.actionBest_K_value_1_15 = QAction(object)
         self.actionBest_K_value_1_15.setObjectName(u"actionBest_K_value_1_15")
-        self.actionBest_K_value_1_15.triggered.connect(lambda: Optimal_K_value())
+        self.actionBest_K_value_1_15.triggered.connect(lambda: print("This should've shown a graph..."))
 
         # FIXME: Add a proper method to the triggered.connect() function for k_nearest_distances diagram.
         self.actionK_nearest_distances = QAction(object)
         self.actionK_nearest_distances.setObjectName(u"actionK_nearest_distances")
-        self.actionK_nearest_distances.triggered.connect(lambda: print("K-nearest distances..."))
+        self.actionK_nearest_distances.triggered.connect(lambda: print("This should've shown a graph..."))
 
         # FIXME: Add a proper method to the triggered.conncet() function for AllRSSIValues.
         self.actionAllRSSIValues = QAction(object)
         self.actionAllRSSIValues.setObjectName(u"actionAllRSSIValues")
-        self.actionAllRSSIValues.triggered.connect(lambda: print("all RSSI values..."))
+        self.actionAllRSSIValues.triggered.connect(lambda: print("This should've shown a graph..."))
 
         # Create Widget within the Window Frame
         self.centralwidget = QtWidgets.QWidget(object)
