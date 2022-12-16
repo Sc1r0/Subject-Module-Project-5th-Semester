@@ -75,26 +75,37 @@ class KNNFromScratch:
 
 
     def evaluate_knn_collected_rssi_values(self, prediction, test_point):
+        # print("1")
         # get predicted X,Y
         _prediction = prediction
+        # print("2")
         # get test_point GROUND TRUTH (X,Y)
         _test_point = test_point
+        # print("3")
         # fetch the index number from X where our _test_point is located
         _ground_truth_index = np.where(np.all(X.values == _test_point, axis=1))
+        # print("4")
         # fetch the ground_truth from the above index value
         _ground_truth_value = y.values[_ground_truth_index[0]]
+        # print("5")
         # calculate euclidean distance from prediction to test_point GROUND TRUTH
         distance = round(e_XY(prediction, _ground_truth_value.flatten()), 2)
+        # print("6")
         return distance
 
 
     def evaluate_knn_random_rssi_values(self, prediction):
         # save variables
+        print("7")
         _prediction = np.array(prediction)  # our predicted X,Y coordinate
+        print("8")
         _k_closest = self._k_closest_ground_truths  # our k_nearest ground truths as calculated in _predict()
+        print("9")
         # calculate the distance between our prediction point to each of the ground truths in _k_closests
         _distances = [e_XY(prediction, k_ground_truth) for k_ground_truth in _k_closest]
+        print("10")
         # calculate the average of the _k_closest euclidean distances
         _average_distance = round(sum(_distances) / len(_distances), 2)
+        print("11")
         # return the result
         return _average_distance
