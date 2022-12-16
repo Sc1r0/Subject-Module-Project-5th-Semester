@@ -119,21 +119,6 @@ class Ui_MainWindow(object):
         self.actionAbout.setObjectName(u"actionAbout")
         self.actionAbout.triggered.connect(lambda: self.about())
 
-        # FIXME: Add a proper method to the triggered.connect() function for Best_K_value diagram.
-        self.actionBest_K_value_1_15 = QAction(object)
-        self.actionBest_K_value_1_15.setObjectName(u"actionBest_K_value_1_15")
-        self.actionBest_K_value_1_15.triggered.connect(lambda: print("This should've shown a graph..."))
-
-        # FIXME: Add a proper method to the triggered.connect() function for k_nearest_distances diagram.
-        self.actionK_nearest_distances = QAction(object)
-        self.actionK_nearest_distances.setObjectName(u"actionK_nearest_distances")
-        self.actionK_nearest_distances.triggered.connect(lambda: print("This should've shown a graph..."))
-
-        # FIXME: Add a proper method to the triggered.conncet() function for AllRSSIValues.
-        self.actionAllRSSIValues = QAction(object)
-        self.actionAllRSSIValues.setObjectName(u"actionAllRSSIValues")
-        self.actionAllRSSIValues.triggered.connect(lambda: print("This should've shown a graph..."))
-
         # Create Widget within the Window Frame
         self.centralwidget = QtWidgets.QWidget(object)
         self.centralwidget.setObjectName("centralwidget")
@@ -315,9 +300,6 @@ class Ui_MainWindow(object):
 
         self.menuMenu = QMenu(self.menubar)
         self.menuMenu.setObjectName(u"menuMenu")
-
-        self.menuDiagrams = QMenu(self.menubar)
-        self.menuDiagrams.setObjectName(u"menuDiagrams")
         object.setMenuBar(self.menubar)
 
         self.statusbar = QStatusBar(object)
@@ -328,13 +310,6 @@ class Ui_MainWindow(object):
         self.menuMenu.addSeparator()
         self.menuMenu.addAction(self.actionAbout)
         self.menubar.addAction(self.menuMenu.menuAction())
-
-        self.menuDiagrams.addAction(self.actionBest_K_value_1_15)
-        self.menuDiagrams.addSeparator()
-        self.menuDiagrams.addAction(self.actionK_nearest_distances)
-        self.menuDiagrams.addSeparator()
-        self.menuDiagrams.addAction(self.actionAllRSSIValues)
-        self.menubar.addAction(self.menuDiagrams.menuAction())
 
         # Fill our UI components with text and format it.
         self.retranslateUi(object)
@@ -430,7 +405,6 @@ class Ui_MainWindow(object):
 
         # Menu at the top and it's subcomponents
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
-        self.menuDiagrams.setTitle(_translate("MainWindow", "Diagrams"))
 
         self.actionClose.setText(_translate("MainWindow", "Quit"))
         self.actionClose.setStatusTip(_translate("MainWindow", "Quit the application"))
@@ -438,19 +412,6 @@ class Ui_MainWindow(object):
 
         self.actionAbout.setText(_translate("MainWindow", "About"))
         self.actionAbout.setStatusTip(_translate("MainWindow", "About this application and its authors"))
-
-        self.actionK_nearest_distances.setText(_translate("MainWindow", "K-nearest distance"))
-        self.actionK_nearest_distances.setStatusTip(_translate("MainWindow", "Show a diagram of k-nearest distance "
-                                                                             "values"))
-
-        self.actionBest_K_value_1_15.setText(_translate("MainWindow", "Best K-Value (1-15)"))
-        self.actionBest_K_value_1_15.setStatusTip(_translate("MainWindow", "Shows a diagram of the best k-values "
-                                                                           "from 1-15"))
-
-        self.actionAllRSSIValues.setText(_translate("MainWindow", "All RSSI Values for each Beacon"))
-        self.actionAllRSSIValues.setStatusTip(_translate("MainWindow", "Shows 4 diagrams, one for each beacon, "
-                                                                       "and plots all their corresponding RSSI "
-                                                                       "values"))
 
     def about(self):
         """
@@ -532,49 +493,64 @@ class Ui_MainWindow(object):
         self.B5Input.setText(value_4)
 
     def performKNNFromScratch(self, test_point):
+        print("1")
         """
         A method to run the KNNFromScratch algorithm - see KNNFromScratch.py. Shows a QMessageBox with an error,
         if the passed test_point variable is empty or partly empty.
         :param test_point: the four values of the Beacon 1-4 text fields.
         """
+        print("2")
         # test if test_point or KvalueValue is empty.
         if not np.any(test_point) or not self.KvalueValue.text():
-            self.error_message_box("MISSING VALUES", "You are either missing: "
+            print("3")
+            self.error_message_box("MISSING VALUES...", "You are either missing: "
                                                      "\n1) one or more RSSI values"
                                                      "\n2) the K-value")
+            print("4")
 
         else:
+            print("5")
             # instantiate our KNN model and give it a k value
             KNN = KNNFS(int(self.KvalueValue.text()))
+            print("6")
             # fit our KNN model
             KNN.fit(X_train.values, y_train.values)
+            print("7")
             # predict values
             prediction = KNN.predict(test_point, y_train)
-
+            print("8")
             # if test_point is in X_test values then perform margin of error calculation, else perform average margin
             # of error.
-            if np.all(test_point) in X_test.values:
+
+            if np.all(test_point in X_test.values):
+                print("9")
                 # calculate the margin of error
                 knn_eval = KNN.evaluate_knn_collected_rssi_values(prediction, test_point)
+                print("10")
                 # set the label and value correctly
                 self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
                                                  "font-weight:600;\">Margin of Error:</span>"
                                                  "</p></body></html>")
+                print("11")
                 self.MarginOfError_value.setText(str(knn_eval) + " meters")
+                print("12")
 
             else:
+                print("14")
                 # calculate the average margin of error
                 knn_eval = KNN.evaluate_knn_random_rssi_values(prediction)
+                print("15")
                 # set the label and value
                 self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
                                                  "font-weight:600;\">Average Margin of Error:</span>"
                                                  "</p></body></html>")
+                print("16")
                 self.MarginOfError_value.setText(str(knn_eval) + " meters")
-
+                print("17")
 
             # plot our values into our GUI
             self.EstimatedPosition_value.setText(str(prediction))
-
+            # show the user position in the Map section
             self.showUserPosition()
 
     # FIXME: How do we calculate the Margin of Error here?
@@ -586,7 +562,7 @@ class Ui_MainWindow(object):
         """
 
         if not test_point or not self.KvalueValue.text():
-            self.error_message_box("MISSING VALUES", "You are either missing: "
+            self.error_message_box("MISSING VALUES...", "You are either missing: "
                                                      "\n1) one or more RSSI values"
                                                      "\n2) the K-value")
 
@@ -619,7 +595,7 @@ class Ui_MainWindow(object):
             beacon_values = [int(self.B2Input.text()), int(self.B3Input.text()),
                              int(self.B4Input.text()), int(self.B5Input.text())]
 
-            # conver list to numpy array
+            # convert list to numpy array
             beacon_values = np.array(beacon_values)
             # convert to array and return it
             return beacon_values

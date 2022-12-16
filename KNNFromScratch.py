@@ -4,7 +4,7 @@ import numpy as np
 # Euclidean distance
 from euclidean_distance import euclidean_distance_beacons as e_multi, \
     euclidean_distance_XY as e_XY
-from excel_sheet_data import X_test, indexes, X, y
+from excel_sheet_data import X_test, X, y
 
 
 class KNNFromScratch:
