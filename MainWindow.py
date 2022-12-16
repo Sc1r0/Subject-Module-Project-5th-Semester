@@ -586,11 +586,11 @@ class Ui_MainWindow(object):
             # predict values
             prediction = KNN.predict(test_point)
 
-            # evaluation = KNN.model_evaluation(, prediction)
-            # print(evaluation)
+            # as we do not know if this method returns the correct value, we have chosen not to include it in the GUI.
+            # evaluation = KNN.model_evaluation(prediction, int(self.KvalueValue.text()))
 
             # set the value of below textfield to the result of above function
-            self.MarginOfError_value.setText("No result.")
+            self.MarginOfError_value.setText("Failed to calculate.")
 
             # plot our values into our GUI
             self.EstimatedPosition_value.setText(str(prediction))

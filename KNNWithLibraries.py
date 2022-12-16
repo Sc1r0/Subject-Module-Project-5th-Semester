@@ -46,12 +46,18 @@ class KNNWithLibraries:
         # return our predicted X,Y coordinate
         return self.KNN_predictions
 
-    def model_evaluation(self, prediction, groundtruth_counterpart):
+    def model_evaluation(self, prediction, k):
         """
         Calculates the Margin of Error.
         :return: the Margin of Error.
         """
-        # model evaluation - returns margin of error in meters
-        self.KNN_eval = mean_squared_error(groundtruth_counterpart, prediction)
-
-        return self.KNN_eval
+        # calculate the margin of error from predicted XY to all XY's in y_test
+        self.KNN_eval = [mean_squared_error(y_test_item, prediction, squared=False) for y_test_item in y_test.values]
+        # sort calculated margin of error
+        self.KNN_eval = np.sort(self.KNN_eval)
+        # calculate and save the k-nearest average margin of error
+        average_MoE = sum(self.KNN_eval[:k]) / k
+        print(self.KNN_eval)
+        print(average_MoE)
+        # return evaluation
+        return round(average_MoE, 2)
