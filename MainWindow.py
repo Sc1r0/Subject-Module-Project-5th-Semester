@@ -472,20 +472,16 @@ class Ui_MainWindow(object):
         """
         # get the item
         item = self.PredefinedRSSIValues.currentItem().text()
-
         # remove array brackets saved in string []
         item = item.replace('[', '')
         item = item.replace(']', '')
-
         # split the string on each space
         item = item.split(" ")
-
         # save the values
         value_1 = item[0]
         value_2 = item[1]
         value_3 = item[2]
         value_4 = item[3]
-
         # put the values into their corresponding Beacon input field
         self.B2Input.setText(value_1)
         self.B3Input.setText(value_2)
@@ -493,60 +489,44 @@ class Ui_MainWindow(object):
         self.B5Input.setText(value_4)
 
     def performKNNFromScratch(self, test_point):
-        print("1")
         """
         A method to run the KNNFromScratch algorithm - see KNNFromScratch.py. Shows a QMessageBox with an error,
         if the passed test_point variable is empty or partly empty.
         :param test_point: the four values of the Beacon 1-4 text fields.
         """
-        print("2")
         # test if test_point or KvalueValue is empty.
         if not np.any(test_point) or not self.KvalueValue.text():
-            print("3")
             self.error_message_box("MISSING VALUES...", "You are either missing: "
                                                      "\n1) one or more RSSI values"
                                                      "\n2) the K-value")
-            print("4")
 
         else:
-            print("5")
             # instantiate our KNN model and give it a k value
             KNN = KNNFS(int(self.KvalueValue.text()))
-            print("6")
             # fit our KNN model
             KNN.fit(X_train.values, y_train.values)
-            print("7")
             # predict values
             prediction = KNN.predict(test_point, y_train)
-            print("8")
             # if test_point is in X_test values then perform margin of error calculation, else perform average margin
             # of error.
 
             if np.all(test_point in X_test.values):
-                print("9")
                 # calculate the margin of error
                 knn_eval = KNN.evaluate_knn_collected_rssi_values(prediction, test_point)
-                print("10")
                 # set the label and value correctly
                 self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
                                                  "font-weight:600;\">Margin of Error:</span>"
                                                  "</p></body></html>")
-                print("11")
                 self.MarginOfError_value.setText(str(knn_eval) + " meters")
-                print("12")
 
             else:
-                print("14")
                 # calculate the average margin of error
                 knn_eval = KNN.evaluate_knn_random_rssi_values(prediction)
-                print("15")
                 # set the label and value
                 self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
                                                  "font-weight:600;\">Average Margin of Error:</span>"
                                                  "</p></body></html>")
-                print("16")
                 self.MarginOfError_value.setText(str(knn_eval) + " meters")
-                print("17")
 
             # plot our values into our GUI
             self.EstimatedPosition_value.setText(str(prediction))
@@ -569,19 +549,14 @@ class Ui_MainWindow(object):
         else:
             # instantiate our KNN model and give it a k value
             KNN = KNNWL(int(self.KvalueValue.text()))
-
             # fit our KNN model
             KNN.fit()
-
             # predict values
             prediction = KNN.predict(test_point)
-
             # as we do not know if this method returns the correct value, we have chosen not to include it in the GUI.
             # evaluation = KNN.model_evaluation(prediction, int(self.KvalueValue.text()))
-
             # set the value of below textfield to the result of above function
             self.MarginOfError_value.setText("Failed to calculate.")
-
             # plot our values into our GUI
             self.EstimatedPosition_value.setText(str(prediction))
 
