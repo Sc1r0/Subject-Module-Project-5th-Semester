@@ -5,6 +5,7 @@ import webbrowser
 
 # diagrams & needed modules
 import matplotlib.pyplot as plt
+import numpy as np
 
 # PyQt5 modules
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -21,7 +22,7 @@ from KNNFromScratch import KNNFromScratch as KNNFS
 from KNNWithLibraries import KNNWithLibraries as KNNWL
 
 # get data from X_test to show in List view
-from excel_sheet_data import X_test, y_train, X_train
+from excel_sheet_data import X_test, y_train, X_train, y_test
 
 
 # Our GUI Class
@@ -505,7 +506,7 @@ class Ui_MainWindow(object):
 
     def getItem(self):
         """
-        A method to fetch the items of the currently selected* array from the predefined RSSI values. When fetched,
+        A method to fetch the items of the currently selected array from the predefined RSSI values. When fetched,
         it updates the text for the Beacon 1-4 text fields.
         """
         # get the item
@@ -536,7 +537,8 @@ class Ui_MainWindow(object):
         if the passed test_point variable is empty or partly empty.
         :param test_point: the four values of the Beacon 1-4 text fields.
         """
-        if not test_point or not self.KvalueValue.text():
+        # test if test_point or KvalueValue is empty.
+        if not np.any(test_point) or not self.KvalueValue.text():
             self.error_message_box("MISSING VALUES", "You are either missing: "
                                                      "\n1) one or more RSSI values"
                                                      "\n2) the K-value")
@@ -544,19 +546,31 @@ class Ui_MainWindow(object):
         else:
             # instantiate our KNN model and give it a k value
             KNN = KNNFS(int(self.KvalueValue.text()))
-
             # fit our KNN model
             KNN.fit(X_train.values, y_train.values)
-
             # predict values
             prediction = KNN.predict(test_point, y_train)
 
-            # calculate the margin of error
-            # use KNN.evaluate_knn(y_test, prediction) function
-            knn_eval = KNN.evaluate_knn(prediction)
+            # if test_point is in X_test values then perform margin of error calculation, else perform average margin
+            # of error.
+            if np.all(test_point) in X_test.values:
+                # calculate the margin of error
+                knn_eval = KNN.evaluate_knn_collected_rssi_values(prediction, test_point)
+                # set the label and value correctly
+                self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
+                                                 "font-weight:600;\">Margin of Error:</span>"
+                                                 "</p></body></html>")
+                self.MarginOfError_value.setText(str(knn_eval) + " meters")
 
-            # set the value of below textfield to the result of above function
-            self.MarginOfError_value.setText(str(knn_eval) + " meters")
+            else:
+                # calculate the average margin of error
+                knn_eval = KNN.evaluate_knn_random_rssi_values(prediction)
+                # set the label and value
+                self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
+                                                 "font-weight:600;\">Average Margin of Error:</span>"
+                                                 "</p></body></html>")
+                self.MarginOfError_value.setText(str(knn_eval) + " meters")
+
 
             # plot our values into our GUI
             self.EstimatedPosition_value.setText(str(prediction))
@@ -604,7 +618,10 @@ class Ui_MainWindow(object):
             # save values in a list
             beacon_values = [int(self.B2Input.text()), int(self.B3Input.text()),
                              int(self.B4Input.text()), int(self.B5Input.text())]
-            # return the list
+
+            # conver list to numpy array
+            beacon_values = np.array(beacon_values)
+            # convert to array and return it
             return beacon_values
         # otherwise, return None
         return None

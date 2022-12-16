@@ -21,7 +21,7 @@ def visualize_k_value():
         KNN = KNNFromScratch(k=i)
         KNN.fit(X_train.values, y_train.values)
         our_predictions = KNN.predict(X_test.values, y_train.values)
-        margin_of_error.append(KNN.evaluate_knn(our_predictions))
+        margin_of_error.append(KNN.evaluate_knn_random_rssi_values(our_predictions))
 
     plt.title("Margin of error by k-value")
     plt.xlabel("k-value")
