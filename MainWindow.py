@@ -501,47 +501,31 @@ class Ui_MainWindow(object):
                                                         "\n2) the K-value")
 
         else:
-            print("12")
             # instantiate our KNN model and give it a k value
             KNN = KNNFS(int(self.KvalueValue.text()))
-            print("13")
             # fit our KNN model
             KNN.fit(X_train.values, y_train.values)
-            print("14")
             # predict values
             prediction = KNN.predict(test_point, y_train)
-            print("15")
             # if test_point is in X_test values then perform margin of error calculation, else perform average margin
             # of error.
-            print("test point: ", test_point)
-            print("X_test.values:\n",X_test.values[:9])
-            print(test_point in X_test.values)
-
             if test_point.tolist() in X_test.values.tolist():
-                print("16")
                 # calculate the margin of error
                 knn_eval = KNN.evaluate_knn_collected_rssi_values(prediction, test_point)
-                print("17")
                 # set the label and value correctly
                 self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
                                                  "font-weight:600;\">Margin of Error:</span>"
                                                  "</p></body></html>")
-                print("18")
                 self.MarginOfError_value.setText(str(knn_eval) + " meters")
-                print("19")
 
             else:
-                print("20")
                 # calculate the average margin of error
                 knn_eval = KNN.evaluate_knn_random_rssi_values(prediction)
-                print("21")
                 # set the label and value
                 self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
                                                  "font-weight:600;\">Average Margin of Error:</span>"
                                                  "</p></body></html>")
-                print("22")
                 self.MarginOfError_value.setText(str(knn_eval) + " meters")
-                print("23")
 
             # plot our values into our GUI
             self.EstimatedPosition_value.setText(str(prediction))
