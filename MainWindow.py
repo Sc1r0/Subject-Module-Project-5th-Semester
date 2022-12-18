@@ -513,6 +513,7 @@ class Ui_MainWindow(object):
                 # calculate the margin of error
                 knn_eval = KNN.evaluate_knn_collected_rssi_values(prediction, test_point)
                 # set the label and value correctly
+                self.MarginOfError_value.setGeometry(QtCore.QRect(105, 28, 200, 31))
                 self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
                                                  "font-weight:600;\">Margin of Error:</span>"
                                                  "</p></body></html>")
@@ -522,6 +523,7 @@ class Ui_MainWindow(object):
                 # calculate the average margin of error
                 knn_eval = KNN.evaluate_knn_random_rssi_values(prediction)
                 # set the label and value
+                self.MarginOfError_value.setGeometry(QtCore.QRect(155, 28, 200, 31))
                 self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
                                                  "font-weight:600;\">Average Margin of Error:</span>"
                                                  "</p></body></html>")
@@ -539,8 +541,7 @@ class Ui_MainWindow(object):
         if the passed test_point variable is empty or partly empty.
         :param test_point: the four values of the Beacon 1-4 text fields.
         """
-
-        if not test_point or not self.KvalueValue.text():
+        if not np.any(test_point) or not self.KvalueValue.text():
             self.error_message_box("MISSING VALUES...", "You are either missing: "
                                                         "\n1) one or more RSSI values"
                                                         "\n2) the K-value")
@@ -552,12 +553,30 @@ class Ui_MainWindow(object):
             KNN.fit()
             # predict values
             prediction = KNN.predict(test_point)
-            # as we do not know if this method returns the correct value, we have chosen not to include it in the GUI.
-            # evaluation = KNN.model_evaluation(prediction, int(self.KvalueValue.text()))
-            # set the value of below textfield to the result of above function
-            self.MarginOfError_value.setText("Failed to calculate.")
+
+            if test_point.tolist() in X_test.values.tolist():
+                # as we do not know if this method returns the correct value, we have chosen not to include it in the GUI.
+                evaluation = KNN.model_evaluation(test_point)
+                # set the value of below textfield to the result of above function
+                self.MarginOfError_value.setGeometry(QtCore.QRect(135, 28, 200, 31))
+                self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
+                                                 "font-weight:600;\">Mean Squared Error:</span>"
+                                                 "</p></body></html>")
+                self.MarginOfError_value.setText(str(evaluation) + " metres")
+
+            else:
+                # set the value of below textfield to the result of above function
+                self.MarginOfError_value.setGeometry(QtCore.QRect(135, 28, 200, 31))
+                self.MarginOfError_Label.setText("<html><head/><body><p><span style=\" font-size:9pt; "
+                                                 "font-weight:600;\">Mean Squared Error:</span>"
+                                                 "</p></body></html>")
+                self.MarginOfError_value.setText("Calculation failed.")
+
             # plot our values into our GUI
             self.EstimatedPosition_value.setText(str(prediction))
+
+            # show the user position in the Map section
+            self.showUserPosition()
 
     def getTestPoint(self):
         """

@@ -4,7 +4,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.neighbors import KNeighborsRegressor
 
 # Our data
-from excel_sheet_data import X_train, y_train, y_test
+from excel_sheet_data import X, X_train, y, y_train, y_test
 
 
 class KNNWithLibraries:
@@ -46,18 +46,15 @@ class KNNWithLibraries:
         # return our predicted X,Y coordinate
         return self.KNN_predictions
 
-    def model_evaluation(self, prediction, k):
+    def model_evaluation(self, test_point):
         """
         Calculates the Margin of Error.
         :return: the Margin of Error.
         """
-        # calculate the margin of error from predicted XY to all XY's in y_test
-        self.KNN_eval = [mean_squared_error(y_test_item, prediction, squared=False) for y_test_item in y_test.values]
-        # sort calculated margin of error
-        self.KNN_eval = np.sort(self.KNN_eval)
-        # calculate and save the k-nearest average margin of error
-        average_MoE = sum(self.KNN_eval[:k]) / k
-        print(self.KNN_eval)
-        print(average_MoE)
-        # return evaluation
-        return round(average_MoE, 2)
+        # fetch the index number from X where our _test_point is located
+        _ground_truth_index = np.where(np.all(X.values == test_point, axis=1))
+        # fetch the ground_truth from the above index value
+        _ground_truth_value = y.values[_ground_truth_index[0]]
+        # model evaluation - returns margin of error in metres
+        self.KNN_eval = mean_squared_error(_ground_truth_value.flatten(), self.KNN_predictions)
+        return round(self.KNN_eval, 2)
