@@ -18,7 +18,7 @@ def euclidean_distance_XY(row1, row2):
 
 
 # method to calculate the euclidean distance between multiple columns
-def euclidean_distance_beacons(row1, row2):
+def euclidean_distance_RSSI(row1, row2):
     distance = np.sqrt(np.sum(
         ((row1[0] - row2[0]) ** 2) +
         ((row1[1] - row2[1]) ** 2) +
